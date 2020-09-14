@@ -1,0 +1,24 @@
+# In this example, we are building the container using docker-compose build --up for dev env 
+version: '3'  # required first entry which specifies version
+
+services: 
+    react-app:
+        build: 
+            context: . # the folder where the Dockerfile is located related to docker-compose.yml
+            dockerfile: Dockerfile.dev
+        ports: 
+            - "3000:3000"
+        volumes: 
+            - /app/node_modules # instructs docker to not map this map from within container to the project folder outside
+            - .:/app # maps the /app the working dir (/app in this case) to everything in the project folder except for ^^
+        stdin_open: true
+    tests: # this service will run test suits and is mapped to the same file as the react-app service therefore will rerun tests on test files changes
+        build:
+            context: .
+            dockerfile: Dockerfile.dev
+        volumes: 
+            - /app/node_modules
+            - .:/app
+        stdin_open: true
+        command: ["npm", "run", "test"] # this overrides the command in the Dockerfile.dev
+
