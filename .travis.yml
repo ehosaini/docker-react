@@ -1,0 +1,10 @@
+sudo: required # needed to have supersuser status on travis 
+services:
+    - docker # need docker for this build
+
+language: generic
+
+before_install: 
+    - docker build -t dockdat/react-app -f Dockerfile.dev . # build the image first in Travis env
+scripts:
+    - docker run dockdat/react-app npm run test -- --coverage # the -- -- coverage is specific to React app
