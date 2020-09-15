@@ -6,5 +6,5 @@ language: generic
 
 before_install: 
     - docker build -t dockdat/react-app -f Dockerfile.dev . # build the image first in Travis env
-scripts:
-    - docker run dockdat/react-app npm run test -- --coverage # the -- -- coverage is specific to React app
+scripts: # instructions for running test suites
+    - docker run -e CI=true dockdat/react-app npm run test -- --coverage # the -- -- coverage is specific to React app
